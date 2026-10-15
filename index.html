@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کارراه | ابزارهای آنلاین</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+header{
+  background:#111827;
+  color:white;
+  padding:24px 16px;
+  text-align:center;
+}
+header h1{margin:0 0 12px;font-size:30px}
+header p{margin:0;color:#d1d5db;line-height:2}
+main{max-width:900px;margin:25px auto;padding:0 15px}
+.intro{text-align:center;margin-bottom:24px}
+.intro h2{font-size:23px}
+.intro p{color:#667085;line-height:2}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 4px 15px #1018280a;
+}
+.card h3{margin-top:0}
+.card p{color:#667085;line-height:1.9;font-size:14px}
+button{
+  border:0;border-radius:9px;padding:11px 15px;
+  background:#2563eb;color:white;font-size:14px;
+  font-family:inherit;cursor:pointer;
+}
+input,textarea,select{
+  width:100%;padding:12px;margin:7px 0 12px;
+  border:1px solid #d0d5dd;border-radius:9px;
+  font:inherit;background:white;
+}
+.tool{display:none;margin-top:15px;border-top:1px solid #eee;padding-top:10px}
+.result{white-space:pre-wrap;line-height:2;overflow-wrap:anywhere}
+footer{text-align:center;padding:28px;color:#667085;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>کارراه</h1>
+  <p>ابزارهای ساده و کاربردی برای زندگی روزمره و درس خواندن</p>
+</header>
+
+<main>
+  <section class="intro">
+    <h2>چه کاری می‌خواهی انجام بدهی؟</h2>
+    <p>یک ابزار انتخاب کن و همین حالا از آن استفاده کن.</p>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h3>📚 برنامه‌ریز مطالعه</h3>
+      <p>درس‌ها و زمان مطالعه‌ات را مرتب کن.</p>
+      <button onclick="showTool('study')">ساخت برنامه</button>
+      <div class="tool" id="study">
+        <label>نام درس‌ها را وارد کن:</label>
+        <textarea id="subjects" placeholder="زیست‌شناسی&#10;فیزیک&#10;شیمی"></textarea>
+        <button onclick="makePlan()">ساخت برنامه</button>
+        <div class="result" id="planResult"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>📝 چک‌لیست کارها</h3>
+      <p>کارهای روزانه‌ات را یادداشت کن.</p>
+      <button onclick="showTool('check')">باز کردن چک‌لیست</button>
+      <div class="tool" id="check">
+        <input id="taskInput" placeholder="مثلاً مرور فصل اول">
+        <button onclick="addTask()">افزودن کار</button>
+        <div id="taskList"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>🔢 محاسبه درصد</h3>
+      <p>درصد یک عدد از عدد دیگر را حساب کن.</p>
+      <button onclick="showTool('percent')">محاسبه درصد</button>
+      <div class="tool" id="percent">
+        <label>عدد اول:</label>
+        <input id="part" type="number" placeholder="مثلاً 25">
+        <label>عدد کل:</label>
+        <input id="total" type="number" placeholder="مثلاً 100">
+        <button onclick="calcPercent()">محاسبه</button>
+        <p id="percentResult" class="result"></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>⏱️ اختلاف ساعت</h3>
+      <p>مدت زمان بین دو ساعت را حساب کن.</p>
+      <button onclick="showTool('time')">محاسبه زمان</button>
+      <div class="tool" id="time">
+        <label>ساعت شروع:</label>
+        <input id="start" type="time">
+        <label>ساعت پایان:</label>
+        <input id="end" type="time">
+        <button onclick="calcTime()">محاسبه مدت</button>
+        <p id="timeResult" class="result"></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>📄 پاسخ‌برگ تست</h3>
+      <p>یک پاسخ‌برگ چهارگزینه‌ای بساز.</p>
+      <button onclick="showTool('answer')">ساخت پاسخ‌برگ</button>
+      <div class="tool" id="answer">
+        <label>عنوان آزمون:</label>
+        <input id="examTitle" placeholder="عنوان آزمون">
+        <label>تعداد سؤال (۱ تا ۵۰):</label>
+        <input id="questionCount" type="number" min="1" max="50" value="20">
+        <button onclick="makeAnswerSheet()">ساخت پاسخ‌برگ</button>
+        <div id="answerResult" class="result"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>💸 محاسبه تخفیف</h3>
+      <p>قیمت نهایی محصول را بعد از تخفیف حساب کن.</p>
+      <button onclick="showTool('discount')">محاسبه تخفیف</button>
+      <div class="tool" id="discount">
+        <label>قیمت اولیه:</label>
+        <input id="price" type="number" min="0" placeholder="قیمت">
+        <label>درصد تخفیف:</label>
+        <input id="discountRate" type="number" min="0" max="100" placeholder="مثلاً 20">
+        <button onclick="calcDiscount()">محاسبه قیمت</button>
+        <p id="discountResult" class="result"></p>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer>کارراه | ابزارهای کاربردی، ساده و در دسترس</footer>
+
+<script>
+function showTool(id){
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+function makePlan(){
+  const items=document.getElementById('subjects').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  document.getElementById('planResult').textContent=items.length
+    ?items.map((x,i)=>(i+1)+'. '+x).join('\n')
+    :'لطفاً نام درس‌ها را وارد کن.';
+}
+function addTask(){
+  const input=document.getElementById('taskInput');
+  const value=input.value.trim();
+  if(!value)return;
+  const label=document.createElement('label');
+  label.style.display='block';
+  label.style.margin='12px 0';
+  const checkbox=document.createElement('input');
+  checkbox.type='checkbox';
+  checkbox.style.width='auto';
+  checkbox.style.marginLeft='8px';
+  const span=document.createElement('span');
+  span.textContent=value;
+  checkbox.addEventListener('change',()=>{span.style.textDecoration=checkbox.checked?'line-through':'none'});
+  label.append(checkbox,span);
+  document.getElementById('taskList').append(label);
+  input.value='';
+}
+function calcPercent(){
+  const p=Number(document.getElementById('part').value);
+  const t=Number(document.getElementById('total').value);
+  const out=document.getElementById('percentResult');
+  if(document.getElementById('part').value===''||document.getElementById('total').value===''||t===0){
+    out.textContent='دو عدد معتبر وارد کن؛ عدد کل نباید صفر باشد.';return;
+  }
+  out.textContent='نتیجه: '+(p/t*100).toLocaleString('fa-IR')+'٪';
+}
+function calcTime(){
+  const s=document.getElementById('start').value;
+  const e=document.getElementById('end').value;
+  const out=document.getElementById('timeResult');
+  if(!s||!e){out.textContent='هر دو ساعت را انتخاب کن.';return}
+  let a=Number(s.slice(0,2))*60+Number(s.slice(3));
+  let b=Number(e.slice(0,2))*60+Number(e.slice(3));
+  if(b<a)b+=1440;
+  const d=b-a;
+  out.textContent='مدت زمان: '+Math.floor(d/60).toLocaleString('fa-IR')+' ساعت و '+(d%60).toLocaleString('fa-IR')+' دقیقه';
+}
+function makeAnswerSheet(){
+  const title=document.getElementById('examTitle').value.trim()||'پاسخ‌برگ آزمون';
+  const n=Number(document.getElementById('questionCount').value);
+  const out=document.getElementById('answerResult');
+  if(!Number.isInteger(n)||n<1||n>50){out.textContent='تعداد سؤال باید بین ۱ تا ۵۰ باشد.';return}
+  const w=window.open('','_blank');
+  if(!w){out.textContent='مرورگر اجازه باز کردن صفحه را نداد. اجازه پنجره جدید را فعال کن.';return}
+  const rows=Array.from({length:n},(_,i)=>'<tr><td>'+(i+1).toLocaleString('fa-IR')+'</td>'+[1,2,3,4].map(k=>'<td>○</td>').join('')+'</tr>').join('');
+  w.document.write('<!DOCTYPE html><html lang="fa" dir="rtl"><meta charset="UTF-8"><title>پاسخ‌برگ</title><style>body{font-family:Tahoma,sans-serif;padding:20px;color:#111}h2{text-align:center}table{width:100%;border-collapse:collapse}th,td{border:1px solid #777;padding:7px;text-align:center}button{padding:10px;margin:15px 0}@media print{button{display:none}}</style><h2>'+title.replace(/[&<>"]/g,'')+'</h2><p>نام و نام خانوادگی: ........................................</p><table><tr><th>شماره</th><th>۱</th><th>۲</th><th>۳</th><th>۴</th></tr>'+rows+'</table><button onclick="window.print()">چاپ پاسخ‌برگ</button></html>');
+  w.document.close();
+}
+function calcDiscount(){
+  const p=document.getElementById('price').value;
+  const r=document.getElementById('discountRate').value;
+  const out=document.getElementById('discountResult');
+  if(p===''||r===''||Number(p)<0||Number(r)<0||Number(r)>100){
+    out.textContent='قیمت معتبر و تخفیف بین صفر تا صد وارد کن.';return;
+  }
+  out.textContent='مبلغ تخفیف: '+(Number(p)*Number(r)/100).toLocaleString('fa-IR')+'\nقیمت نهایی: '+(Number(p)*(1-Number(r)/100)).toLocaleString('fa-IR');
+}
+</script>
+</body>
+</html>
